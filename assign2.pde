@@ -87,20 +87,13 @@ void draw() {
 
      image(groundHog,groundHogX,groundHogY);
 
-     if(groundHogX >= 640- groundHogW ){
-     groundHogX = 640- groundHogW ;
-     }
-     if(groundHogX <=0 ){
-     groundHogX = 0;
-     }
-     if(groundHogY >= 480- groundHogH ){
-     groundHogY = 480- groundHogH ;
-     }
-  
-     if(groundHogX >= soldierWalk_X && groundHogX+80 <= soldierWalk_X+80 && groundHogY >= soldierWalk_Y && groundHogY+80 <= soldierWalk_Y+80){
+  //&& groundHogY+80 <= soldierWalk_Y+80 && groundHogY <= soldierWalk_Y+80
+     if(groundHogX <= soldierWalk_X && groundHogX+80>= soldierWalk_X-80 && groundHogY >= soldierWalk_Y && groundHogY+80 <= soldierWalk_Y+80){
      Life -=1;
      groundHogY = 80;
      groundHogX = 320;
+     soldierWalk_X=0;
+
      }
      image(cabbage,cabbageX,cabbageY);
      if(groundHogX >= cabbageX && groundHogX+80 <= cabbageX+80 && groundHogY >= cabbageY && groundHogY+80 <= cabbageY+80){
@@ -141,6 +134,9 @@ void draw() {
           Life = 2;
           cabbageX=int(random(0,8))*80;
           cabbageY=int(random(2,6))*80;
+          soldierWalk_X = 0;
+          soldierPlace=int(random(2,6));
+          soldierWalk_Y=soldierPlace*80;
         }
       }else{
         image(restartNormal,248,360);
@@ -155,12 +151,21 @@ void keyPressed() {
     switch (keyCode) {
       case DOWN:
          groundHogY += 80;
+         if(groundHogY > height-80){
+         groundHogY = height-80;
+         }
         break;
       case LEFT:
         groundHogX -= 80;
+        if(groundHogX < 0){
+        groundHogX = 0;
+         }
         break;
       case RIGHT:
         groundHogX += 80;
+        if(groundHogX  >width-80){
+        groundHogX = width-80;
+         }
         break;
     }
   }
